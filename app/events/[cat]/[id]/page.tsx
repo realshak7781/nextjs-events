@@ -12,6 +12,7 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 import { CalendarDays, Clock, MapPin } from 'lucide-react'; // Icons
+import { BookingButton } from '@/components/modals/BookingButton';
 
 // Define the shape of the props
 type EventDetailPageProps = {
@@ -112,9 +113,7 @@ export default async function EventDetailPage({ params: paramsProp }: EventDetai
 
         <CardFooter>
           {/* 'size="lg"' makes the button bigger and a clear call to action */}
-          <Button size="lg" className="w-full text-lg">
-            Book Your Spot
-          </Button>
+          <BookingButton eventId={event.id} eventName={event.title} />
         </CardFooter>
       </Card>
     </div>

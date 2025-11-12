@@ -101,13 +101,13 @@ export default function Footer() {
             © 2025 Events App. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
               <Twitter className="h-5 w-5" />
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="https://github.com/realshak7781" className="text-muted-foreground hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
               <Github className="h-5 w-5" />
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="https://www.linkedin.com/in/akhtarsharique" className="text-muted-foreground hover:text-foreground transition-colors" target="_blank" rel="noopener noreferrer">
               <Linkedin className="h-5 w-5" />
             </Link>
           </div>

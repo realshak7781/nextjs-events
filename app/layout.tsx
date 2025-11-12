@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header/header";
 import FooterComponent from "@/components/footer/footer";
 import { ThemeProvider } from "@/components/dark-mode/theme-provider";
+import { Toaster } from "sonner";
 // 1. Import your new components
 
 
@@ -59,6 +60,9 @@ export default function RootLayout({
         {/* 3. Add your Footer at the bottom */}
         <FooterComponent />
 
+         {/* 2. Add the Toaster component here */}
+          {/* It will automatically handle all toast() calls from any component */}
+          <Toaster richColors />
       </ThemeProvider>
       </body>
     </html>
