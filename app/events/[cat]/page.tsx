@@ -3,6 +3,16 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import data from '@/data/data.json'; // Make sure path is correct
 import { notFound } from 'next/navigation';
+// Import the Shadcn/UI components we'll use
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 // Define the shape of the props Next.js will pass to this page
 type CategoryPageProps = {
@@ -11,7 +21,7 @@ type CategoryPageProps = {
   }
 }
 
-// This function generates the dynamic browser tab title
+// This function generates the dynamic browser tab title (no changes needed)
 export async function generateMetadata({ params: paramsProp }: CategoryPageProps): Promise<Metadata> {
   // Await the params to resolve them
   const params = await paramsProp;
@@ -53,44 +63,74 @@ export default async function EventCategoryPage({ params: paramsProp }: Category
     event.city.toLowerCase() === categoryId
   );
 
+  // --- NEW "AMAZING" UI STARTS HERE ---
+  // We use a <div> instead of <main> because <main> is already in layout.tsx
   return (
-    <main className="flex-grow p-5">
-      <h1 className="text-3xl font-bold text-blue-700 mb-2">
-        {category.title}
-      </h1>
-      <p className="text-lg text-gray-700 mb-6">{category.description}</p>
+    <div className="flex flex-col gap-12">
       
-      {/* 3. Render the grid of filtered events */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* 1. Page Header (consistent with homepage hero) */}
+      <section className="text-center">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+          {category.title}
+        </h1>
+        <p className="max-w-2xl mx-auto mt-4 text-lg text-muted-foreground">
+          {category.description}
+        </p>
+      </section>
+      
+      {/* 2. Render the grid of filtered events */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
+        {/* Loop over the filtered events */}
         {filteredEvents.map((event) => (
-          <Link 
-            key={event.id} 
-            // 4. Link to the final, specific event page
-            href={`/events/${params.cat}/${event.id}`} 
-            className="border rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
-          >
-            <Image 
-              src={event.image}
-              alt={event.title}
-              width={400}
-              height={250}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
-              <p className="text-gray-700">{event.city}</p>
-            </div>
-          </Link>
+          
+          // Use the Shadcn <Card> component for consistency
+          <Card key={event.id} className="w-full bg-card overflow-hidden flex flex-col transition-all hover:shadow-lg hover:-translate-y-1">
+            <Link 
+              href={`/events/${params.cat}/${event.id}`} 
+              className="flex flex-col h-full"
+            >
+              
+              <CardHeader className="p-0">
+                <Image 
+                  src={event.image}
+                  alt={event.title}
+                  width={400}
+                  height={250}
+                  className="w-full h-48 object-cover"
+                />
+              </CardHeader>
+              
+              <CardContent className="p-4 flex-grow">
+                <CardTitle className="text-xl font-bold text-foreground">
+                  {event.title}
+                </CardTitle>
+                <CardDescription className="mt-2 text-muted-foreground">
+                  {event.city}
+                </CardDescription>
+              </CardContent>
+
+              <CardFooter className="p-4 pt-0">
+                <Button variant="outline" className="w-full">
+                  View Details
+                </Button>
+              </CardFooter>
+
+            </Link>
+          </Card>
         ))}
 
-        {/* Show a message if no events were found for this category */}
+        {/* 3. Show a styled "No Events" message */}
         {filteredEvents.length === 0 && (
-          <p className="text-gray-500">No events found for this category.</p>
+          <div className="md:col-span-3 text-center py-12">
+            <h2 className="text-2xl font-semibold text-muted-foreground">No Events Found</h2>
+            <p className="text-muted-foreground mt-2">
+              There are no events listed for this category right now.
+            </p>
+          </div>
         )}
 
-      </div>
-    </main>
+      </section>
+    </div>
   );
 }
-
